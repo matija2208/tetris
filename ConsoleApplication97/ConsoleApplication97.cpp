@@ -8,17 +8,20 @@ bool game = true;
 bool keys[4];
 bool falling = false;
 
-short x, y;
+short x, y, max_x, min_x, max_y;
 
 int main()
 {
 	tetris igra;
+	
 	igra.inicijalizacija();
+
+	ShowCursor(false);
 
 	while (game)
 	{
 		//timing-------------
-		std::this_thread::sleep_for(std::chrono::milliseconds(50));
+		std::this_thread::sleep_for(std::chrono::microseconds(16700));
 
 		//input--------------
 		for (int i = 0; i < 4; i++)
@@ -27,18 +30,33 @@ int main()
 		}
 
 		//testing------------
-		/*if (!falling)
+		if (!falling)
 		{
 			falling = true;
+			igra.zamena();
 			igra.odredjivanje_oblika();
 			x = 3;
 			y = -1;
+			
+			if (!igra.provera(x, y))
+				game = false;
 		}
+
 		if (keys[0])
-			x -= 1;
-		else if (keys[1])
-			x += 1;
-		if (keys[2])
+		{
+			if(x-1 >= igra.min_x())
+				x -= 1;
+		}
+		else if (keys[2])
+		{
+			if(x+1 <= igra.max_x())
+				x += 1;
+		}
+		
+		if (keys[3] && ((y + 1) < 20))
+			y += 1;
+
+		/*if (keys[1])
 		{
 			igra.rotacija();
 			bool test = igra.provera(x, y);

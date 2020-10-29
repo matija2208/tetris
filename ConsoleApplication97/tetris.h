@@ -4,13 +4,11 @@
 #include <windows.h>
 #include <time.h>
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 class tetris
 {
-	int nScreenWidth = 12;
-	int nScreenHeight = 21;
-
-	wchar_t* screen = new wchar_t[nScreenWidth * nScreenHeight];
 
 	static const int n = 4;
 
@@ -43,7 +41,7 @@ class tetris
 		{0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0}
+		{0,0,0,0,0,0,0,0,0,0},
 	};
 
 	int pices[7][4][4] =
@@ -58,15 +56,18 @@ class tetris
 	};
 
 	int tetronim[4][4] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
+	int next[4][4] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 
 
 public:
-
 	void inicijalizacija();
 	void rotacija();
+	void pos_rotacija();
 	void odredjivanje_oblika();
-	void proba_ispisa();
+	void zamena();
 	bool provera(int x, int y);
+	int max_x();
+	int min_x();
 	void stampaj(int x, int y);
 };
 

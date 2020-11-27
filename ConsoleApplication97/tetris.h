@@ -88,6 +88,9 @@ class tetris
 	//sledeci oblik
 	int next[4][4] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 
+#define SCREEN_WIDTH 43
+#define SCREEN_HEIGHT 25
+
 public:
 
 	int odredjivanje_oblika();

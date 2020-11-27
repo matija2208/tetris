@@ -172,9 +172,9 @@ int tetris::max_y()
 //pretvaranje trenutnog oblika u pozadinu
 void tetris::stapanje(int x, int y)
 {
-	for (int i = 0;i < 4;i++)
+	for (int i = 0; i < 4; i++)
 	{
-		for (int j = 0;j < 4;j++)
+		for (int j = 0; j < 4; j++)
 		{
 			if (tetronim[i][j] == 1)
 			{
@@ -189,10 +189,10 @@ int tetris::nDlines()
 {
 	bool test;
 	int num_lines = 0;
-	for (int i = 0;i < 20;i++)
+	for (int i = 0; i < 20; i++)
 	{
 		test = true;
-		for (int j = 0;j < 10;j++)
+		for (int j = 0; j < 10; j++)
 		{
 			if (tabla[i][j] == 0)
 			{
@@ -203,14 +203,14 @@ int tetris::nDlines()
 		if (test)
 		{
 			num_lines += 1;
-			for (int k = i;k > 0;k--)
+			for (int k = i; k > 0; k--)
 			{
-				for (int l = 0;l < 10;l++)
+				for (int l = 0; l < 10; l++)
 				{
 					tabla[k][l] = tabla[k - 1][l];
 				}
 			}
-			for (int l = 0;l < 10;l++)
+			for (int l = 0; l < 10; l++)
 			{
 				tabla[0][l] = 0;
 			}
@@ -220,60 +220,210 @@ int tetris::nDlines()
 }
 
 //ispis
+	//void tetris::stampaj(int x, int y, int score, int level)
+	//{
+	//	system("cls");
+	//	std::cout << "\033[0;32m" << std::endl;
+
+	//	for (int i = 0; i < 21; i++)
+	//	{
+	//		for(int j=0;j<17;j++)
+	//		{
+	//			if ((i == 0 && j < 5) || (j == 0 && i < 5) || (i == 5 && j < 5) || j == 5 || j == 16 || (i == 20 && j > 5 && j < 16))
+	//			{
+	//				//std::cout << char(178) << char(178) << char(178) << char(178);
+	//				char buffer[] = {178, 178};
+	//				fwrite(buffer, sizeof(char), sizeof(buffer), stderr);
+	//				if (j == 16)
+	//				{
+	//					if (i == 0)
+	//					{
+	//						char buffer[] = { 32,32,32, 83, 67, 79, 82, 69, 58 };
+	//						fwrite(buffer, sizeof(char), sizeof(buffer), stderr);
+	//						//std::cout << "   SCORE:";
+	//					}
+	//					else if (i == 1)
+	//					{
+	//						std::cout << "   " << score;
+	//					}
+	//					else if (i == 3)
+	//					{
+	//						char buffer[] = { 32,32,32, 76, 69, 86, 69, 76, 58 };
+	//						fwrite(buffer, sizeof(char), sizeof(buffer), stderr);
+	//					}
+	//					else if (i == 4)
+	//					{
+	//						std::cout << "   " << level;
+	//					}
+	//				}
+	//			}
+	//			else if ((i > 0 && i < 5) && (j > 0 && j < 5))
+	//			{
+	//				if (next[i - 1][j - 1] == 1)
+	//				{
+	//					char buffer[] = { 219,219};
+	//					fwrite(buffer, sizeof(char), sizeof(buffer), stderr);
+	//				}
+	//					//std::cout << char(219) << char(219) << char(219) << char(219);
+	//				else
+	//				{
+	//					char buffer[] = { 32,32};
+	//					fwrite(buffer, sizeof(char), sizeof(buffer), stderr);
+	//				}
+	//					//std::cout << "    ";
+	//			}
+	//			else if ((i > y - 1 && i < y + 4) && (j - 6 > x - 1 && j - 6 < x + 4) && tetronim[i - y][j - x - 6] == 1)
+	//			{
+	//				char buffer[] = { 219,219};
+	//				fwrite(buffer, sizeof(char), sizeof(buffer), stderr);
+	//				//std::cout << char(219) << char(219) << char(219) << char(219);
+	//			}
+	//			else if (i >= 0 && i < 20 && j>5 && j < 16)
+	//			{
+	//				if (tabla[i][j - 6] == 1)
+	//				{
+	//					char buffer[] = { 219, 219};
+	//					fwrite(buffer, sizeof(char), sizeof(buffer), stderr);
+	//				}
+	//				else
+	//				{
+	//					char buffer[] = { 32,46};
+	//					fwrite(buffer, sizeof(char), sizeof(buffer), stderr);
+	//				}
+	//			}
+	//	
+	//			else
+	//			{
+	//				char buffer[] = { 32,32};
+	//				fwrite(buffer, sizeof(char), sizeof(buffer), stderr);
+	//			}
+	//			
+	//		}
+	//		std::cout << std::endl;
+	//	}
+	//}
+
 void tetris::stampaj(int x, int y, int score, int level)
 {
 	system("cls");
 	std::cout << "\033[0;32m" << std::endl;
+	HANDLE hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
+
+	COORD dwBufferSize = { 43,21 };
+	COORD dwBufferCoord = { 0, 0 };
+	SMALL_RECT rcRegion = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
+
+	CHAR_INFO buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
+
+	ReadConsoleOutput(hOutput, (CHAR_INFO*)buffer, dwBufferSize,
+		dwBufferCoord, &rcRegion);
 	for (int i = 0; i < 21; i++)
 	{
 		for (int j = 0; j < 17; j++)
 		{
 			if ((i == 0 && j < 5) || (j == 0 && i < 5) || (i == 5 && j < 5) || j == 5 || j == 16 || (i == 20 && j > 5 && j < 16))
 			{
-				std::cout << char(178) << char(178);
+
 				if (j == 16)
+					buffer[i][j * 2].Char.UnicodeChar = 35;
+				else if (((i == 0 || i == 5) && j != 0) || (i == 20 && j != 5) || (j == 5 && i < 5))
 				{
-					if (i == 0)
-					{
-						std::cout << "   SCORE:";
-					}
-					else if (i == 1)
-					{
-						std::cout << "   " << score;
-					}
-					else if (i == 3)
-					{
-						std::cout << "   LEVEL:";
-					}
-					else if (i == 4)
-					{
-						std::cout << "   " << level;
-					}
+					buffer[i][j * 2].Char.UnicodeChar = 35;
+					buffer[i][j * 2 + 1].Char.UnicodeChar = 35;
 				}
+				else
+					buffer[i][j * 2 + 1].Char.UnicodeChar = 35;
 			}
 			else if ((i > 0 && i < 5) && (j > 0 && j < 5))
 			{
 				if (next[i - 1][j - 1] == 1)
-					std::cout << char(219) << char(219);
+				{
+					buffer[i][j * 2].Char.AsciiChar = 91;
+					buffer[i][j * 2 + 1].Char.AsciiChar = 93;
+				}
 				else
-					std::cout << "  ";
+				{
+					buffer[i][j * 2].Char.AsciiChar = 32;
+					buffer[i][j * 2 + 1].Char.AsciiChar = 32;
+				}
+
 			}
 			else if ((i > y - 1 && i < y + 4) && (j - 6 > x - 1 && j - 6 < x + 4) && tetronim[i - y][j - x - 6] == 1)
 			{
-				std::cout << char(219) << char(219);
+				buffer[i][j * 2].Char.AsciiChar = 91;
+				buffer[i][j * 2 + 1].Char.AsciiChar = 93;
+
 			}
 			else if (i >= 0 && i < 20 && j>5 && j < 16)
 			{
 				if (tabla[i][j - 6] == 1)
-					std::cout << char(219) << char(219);
+				{
+					buffer[i][j * 2].Char.AsciiChar = 91;
+					buffer[i][j * 2 + 1].Char.AsciiChar = 93;
+				}
 				else
-					std::cout << " .";
+				{
+					buffer[i][j * 2].Char.AsciiChar = 32;
+					buffer[i][j * 2 + 1].Char.AsciiChar = 46;
+				}
 			}
 
-			else std::cout << "  ";
+			else
+			{
+				buffer[i][j * 2].Char.AsciiChar = 32;
+				buffer[i][j * 2 + 1].Char.AsciiChar = 32;
+			}
+
 		}
-		std::cout << std::endl;
+		char sc[] = { 32,32,32,'S','C','O','R','E',':' };
+		char sc_p[9] = { 32,32,32 };
+		int S = score;
+		char lv[] = { 32,32,32,'L','E','V','E','L',':' };
+		char lv_p[9] = { 32,32,32,32,32,32,32,32,32 };
+		int L = level;
+
+		for (int i = 8; i > 2; i--)
+		{
+			sc_p[i] = S % 10 + 48;
+			S /= 10;
+		}
+
+		for (int i = 4; i > 2; i--)
+		{
+			lv_p[i] = L % 10 + 48;
+			L /= 10;
+		}
+
+		for (int k = 0; k < 9; k++)
+		{
+			if (i == 0)
+			{
+				buffer[i][k + 34].Char.AsciiChar = sc[k];
+			}
+
+			else if (i == 1)
+			{
+				buffer[i][k + 34].Char.AsciiChar = sc_p[k];
+			}
+
+			else if (i == 3)
+			{
+				buffer[i][k + 34].Char.AsciiChar = lv[k];
+			}
+
+			else if (i == 4)
+			{
+				buffer[i][k + 34].Char.AsciiChar = lv_p[k];
+			}
+
+			else
+			{
+				buffer[i][k + 34].Char.AsciiChar = 32;
+			}
+		}
 	}
+
+	WriteConsoleOutput(hOutput, (CHAR_INFO*)buffer, dwBufferSize, dwBufferCoord, &rcRegion);
 }
 
 //set funkcija koje se moraju pozvati pre pocetka igre
